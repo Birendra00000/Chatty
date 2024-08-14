@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-
+import dotenv from "dotenv";
+dotenv.config(); // Ensure this is called at the beginning
 let isConnected = false;
 
 export const connecttoDB = async () => {
@@ -7,17 +8,19 @@ export const connecttoDB = async () => {
 
   if (isConnected) {
     console.log("MongoDB is already connected");
+    return;
   }
 
+  // console.log("MONGODB_URL is thisssssssssssss", process.env.MONGODB_URL);
+  // console.log("MONGODB_URL", process.env.MONGODB_URL); // Log the environment variable
   try {
     await mongoose.connect(process.env.MONGODB_URL, {
-      dbName: "Chatty",
       useNewUrlParser: true,
-      uneUnifiedTopology: true,
+      useUnifiedTopology: true,
     });
     isConnected = true;
-    console.log("Mongo DB is connected successfully!!");
+    console.log("MongoDB is connected successfully!");
   } catch (error) {
-    console.log("Error while connecting with database", error);
+    console.error("Error while connecting to the database:", error);
   }
 };

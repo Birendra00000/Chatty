@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Shema({
+const userSchema = new mongoose.Schema({
   username: {
     type: String,
     require: true,
@@ -18,12 +18,11 @@ const userSchema = new mongoose.Shema({
     type: String,
     default: "",
   },
-  chats: {
-    type: [{ type: mongoose.Shema.Types.ObjectId, ref: "Chat" }],
-    default: "",
-  },
+  // chats: {
+  //   type: [{ type: mongoose.Shema.Types.ObjectId, ref: "Chat" }],
+  //   default: "",
+  // },
 });
 
-const User = mongoose.model("User", userSchema);
-
+const User = mongoose.models.User || mongoose.model("User", userSchema);
 export default User;

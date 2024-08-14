@@ -1,10 +1,14 @@
 "use client";
 
+import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 
 const Form = ({ type }) => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -12,7 +16,23 @@ const Form = ({ type }) => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post("/api/auth/register", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) return router.push("/");
+      console.log("response", response);
+
+      if (response.error) {
+        toast.error("Soething went wrong");
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
+  };
 
   return (
     <div className="h-[600px] w-full flex justify-center items-center">

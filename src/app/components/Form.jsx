@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { signIn } from "next-auth/react";
 
 const Form = ({ type }) => {
   const router = useRouter();
@@ -17,20 +18,37 @@ const Form = ({ type }) => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    try {
-      const response = await axios.post("/api/auth/register", data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+    if (type === "register") {
+      try {
+        const response = await axios.post("/api/auth/register", data, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (response.ok) return router.push("/");
+        console.log("response", response);
+
+        if (response.error) {
+          console.log("Something went wrong");
+        }
+      } catch (error) {
+        console.error("Error during registration:", error);
+      }
+    }
+    if (type === "login") {
+      const response = await signIn("credentials", {
+        ...data,
+        redirect: false,
       });
-      if (response.ok) return router.push("/");
-      console.log("response", response);
+      console.log("datatatta", "credentials");
+      if (response.ok) {
+        return router.push("/chats");
+      }
+      console.log("LogInresponse", response);
 
       if (response.error) {
-        toast.error("Soething went wrong");
+        console.log("error", response.error);
       }
-    } catch (error) {
-      console.error("Error during registration:", error);
     }
   };
 
@@ -132,9 +150,14 @@ const Form = ({ type }) => {
         <Link href={type === "register" ? "/" : "/register"}>
           <div className="flex justify-center text-[14px] lg:text-[16px]">
             <p>
-              {type === "register"
-                ? "Already have an account? Sign In here"
-                : "Don't have an account? Pleased register"}
+              {type === "register" ? (
+                <>
+                  Already have an account?{" "}
+                  <span className="text-blue-400 underline">Sign In here </span>
+                </>
+              ) : (
+                "Don't have an account? Pleased register"
+              )}
             </p>
           </div>
         </Link>

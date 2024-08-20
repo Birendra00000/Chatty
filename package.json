@@ -16,6 +16,7 @@
     "hot": "^0.0.7",
     "mongoose": "^8.5.3",
     "next": "14.2.5",
+    "next-auth": "^4.24.7",
     "next-cloudinary": "^6.10.0",
     "pusher": "^5.2.0",
     "pusher-js": "^8.4.0-rc2",

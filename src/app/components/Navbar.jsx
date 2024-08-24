@@ -19,11 +19,13 @@ const Navbar = () => {
       <div className="w-full flex justify-center">
         <div className="w-[85%] flex justify-between items-center">
           <div>
-            <img
-              src="/assests/logo.png"
-              alt="logo"
-              className="w-[120px] h-[80px]"
-            />
+            <Link href="/chats">
+              <img
+                src="/assests/logo.png"
+                alt="logo"
+                className="w-[120px] h-[80px]"
+              />
+            </Link>
           </div>
           <div className="flex items-center gap-8">
             <Link
@@ -50,7 +52,7 @@ const Navbar = () => {
               <img
                 src={user?.profileImage || "/assests/user.png"}
                 alt="logo"
-                className="w-[45px] rounded-full"
+                className="w-[45px] h-[45px] rounded-full"
               />
             </Link>
           </div>

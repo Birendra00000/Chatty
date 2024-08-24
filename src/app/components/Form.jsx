@@ -25,11 +25,13 @@ const Form = ({ type }) => {
             "Content-Type": "application/json",
           },
         });
-        if (response.ok) return router.push("/");
-        console.log("response", response);
+        if (response.status === 200) {
+          return router.push("/");
+        }
+        console.log("response", response.data);
 
         if (response.error) {
-          console.log("Something went wrong");
+          return console.log("Something went wrong");
         }
       } catch (error) {
         console.error("Error during registration:", error);
@@ -142,7 +144,10 @@ const Form = ({ type }) => {
             </>
           )} */}
           <div className=" items-center justify-center  flex text-lg w-[100%]">
-            <button className="bg-sky-500 text-white w-[30%] p-1 rounded-lg text-[14px] lg:text-[16px]">
+            <button
+              className="bg-sky-500 text-white w-[30%] p-1 rounded-lg text-[14px] lg:text-[16px]"
+              type="submit"
+            >
               Sign In
             </button>
           </div>
@@ -156,7 +161,12 @@ const Form = ({ type }) => {
                   <span className="text-blue-400 underline">Sign In here </span>
                 </>
               ) : (
-                "Don't have an account? Pleased register"
+                <>
+                  Don't have an account?{" "}
+                  <span className="text-blue-400 underline">
+                    Pleased Register{" "}
+                  </span>
+                </>
               )}
             </p>
           </div>

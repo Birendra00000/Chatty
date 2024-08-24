@@ -2,6 +2,7 @@ import User from "../../../../../modals/User";
 import { hash } from "bcryptjs";
 import { connecttoDB } from "../../../../../mongoose";
 import bcrypt from "bcryptjs";
+
 export const POST = async (req, res) => {
   try {
     await connecttoDB();

@@ -18,7 +18,7 @@ const Profile = () => {
   useEffect(() => {
     if (user) {
       reset({
-        username: user?.userName,
+        username: user?.username,
         profileImage: user?.profileImage,
       });
     }
@@ -68,7 +68,7 @@ const Profile = () => {
           <span className="relative flex justify-center">
             <input
               type="text"
-              placeholder={user?.userName || "username"}
+              placeholder={user?.username || "username"}
               className="outline-none p-2 shadow-md w-[80%] border-gray-100 border rounded-md"
               {...register("username", {
                 required: "Username is required",

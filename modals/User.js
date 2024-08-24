@@ -18,10 +18,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-  // chats: {
-  //   type: [{ type: mongoose.Shema.Types.ObjectId, ref: "Chat" }],
-  //   default: "",
-  // },
+  chats: {
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Chat" }],
+    default: "",
+  },
 });
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);

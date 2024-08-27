@@ -29,6 +29,9 @@ export const PUT = async (req, { params }) => {
     });
   } catch (error) {
     console.log(error);
-    return new Response("Failed to update user", { status: 500 });
+    return new Response(
+      JSON.stringify({ error: "Failed to get all chats of current User" }),
+      { status: 500 }
+    );
   }
 };

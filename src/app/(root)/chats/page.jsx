@@ -9,12 +9,14 @@ const Chats = () => {
   console.log("session", session);
 
   return (
-    <div className="w-full flex">
-      <div className="w-1/3 max-lg:w-1/2 max-md:w-full">
-        <ChatList />
-      </div>
-      <div className="w-2/3 max-lg:w-1/2 max-md:hidden">
-        <Contact />
+    <div className="w-full flex justify-center">
+      <div className="w-[90%] flex gap-8">
+        <div className="w-1/3 max-lg:w-1/2 max-md:w-full">
+          <ChatList />
+        </div>
+        <div className="w-2/3 max-lg:w-1/2 max-md:hidden">
+          <Contact />
+        </div>
       </div>
     </div>
   );

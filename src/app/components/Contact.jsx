@@ -18,8 +18,6 @@ const Contact = () => {
   const [allContacts, setAllContacts] = useState([]);
   const [search, setSearch] = useState("");
 
-  console.log("search contact", search);
-
   const fetchData = async () => {
     try {
       const response = await axios.get(
@@ -67,7 +65,6 @@ const Contact = () => {
       preContact.filter((contact) => contact.id !== id)
     );
   };
-  console.log("Contact array", selectedContacts);
 
   //CREATE CHATS
 

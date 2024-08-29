@@ -9,12 +9,12 @@ export const POST = async (req) => {
     const body = await req.json();
     const { chatId, currentUserId, text, photo } = body;
 
-    if (!chatId || !currentUserId || !text) {
-      return new Response(
-        JSON.stringify({ error: "Missing required fields" }),
-        { status: 400 }
-      );
-    }
+    // if (!chatId || !currentUserId || !text) {
+    //   return new Response(
+    //     JSON.stringify({ error: "Missing required fields" }),
+    //     { status: 400 }
+    //   );
+    // }
     const currentUser = await User.findById(currentUserId);
 
     const newMessage = await Message.create({
@@ -24,6 +24,8 @@ export const POST = async (req) => {
       photo,
       seenBy: currentUserId,
     });
+
+    console.log(newMessage);
 
     const updatedChat = await Chat.findByIdAndUpdate(
       chatId,

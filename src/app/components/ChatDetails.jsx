@@ -5,6 +5,7 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { RiGalleryView } from "react-icons/ri";
 import { LuSendHorizonal } from "react-icons/lu";
+import { CldUploadButton } from "next-cloudinary";
 
 const ChatDetails = ({ chatId }) => {
   const [text, sendText] = useState("");
@@ -14,12 +15,10 @@ const ChatDetails = ({ chatId }) => {
 
   const { data: session } = useSession();
   const currentUser = session?.user;
-  console.log("otherMember", otherMembers);
 
   const getChatDetails = async () => {
     try {
       const response = await axios.get(`/api/chats/${chatId}`);
-      console.log("ResponseDetails", response);
       setChat(response.data);
       setOtherMembers(
         response?.data?.members?.filter(
@@ -38,6 +37,7 @@ const ChatDetails = ({ chatId }) => {
     }
   }, [currentUser, chatId]);
 
+  //FOR SENDING CHAT MESSAGE
   const sendChat = async () => {
     try {
       const response = await axios.post(
@@ -49,12 +49,39 @@ const ChatDetails = ({ chatId }) => {
           },
         }
       );
-      console.log("response", response);
 
       if (response.status !== 200) {
         console.log("Something went wrong");
       } else {
         sendText("");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //FOR SENDING PHOTO
+
+  const sendPhoto = async (result) => {
+    console.log("Upload Result:", result); // Inspect result structure
+    try {
+      const response = await axios.post(
+        "/api/messages",
+        {
+          chatId,
+          currentUserId: currentUser._id,
+          photo: result?.info?.secure_url,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("response", chatId, photo);
+
+      if (response.status !== 200) {
+        console.log("Something went wrong");
       }
     } catch (error) {
       console.log(error);
@@ -106,10 +133,16 @@ const ChatDetails = ({ chatId }) => {
 
         <div>
           <div className="relative">
-            <RiGalleryView
-              className="absolute top-[20%] left-[1%] cursor-pointer"
-              size={25}
-            />
+            <CldUploadButton
+              options={{ maxFiles: 1 }}
+              onUpload={sendPhoto}
+              uploadPreset="vtenqo0l"
+            >
+              <RiGalleryView
+                className="absolute top-[20%] left-[1%] cursor-pointer"
+                size={25}
+              />
+            </CldUploadButton>
             <input
               type="text"
               placeholder="Write a message"

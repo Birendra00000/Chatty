@@ -1,4 +1,5 @@
 import Chat from "../../../../../modals/Chat";
+import Message from "../../../../../modals/Message";
 import User from "../../../../../modals/User";
 import { connecttoDB } from "../../../../../mongoose";
 
@@ -13,6 +14,14 @@ export const GET = async (req, { params }) => {
     const allChats = await Chat.find({ members: userId })
       .sort({ lastMessageAt: -1 })
       .populate("members")
+      .populate({
+        path: "message",
+        model: Message,
+        populate: {
+          path: "sender seenBy",
+          model: User,
+        },
+      })
       .exec();
 
     return new Response(JSON.stringify(allChats), { status: 200 });

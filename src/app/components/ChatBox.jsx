@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 const ChatBox = ({ chats, currentUser, index, currentChatId }) => {
   const otherMembers = Array.isArray(chats?.members)
-    ? chats.members.filter((item) => item._id !== currentUser._id)
+    ? chats.members.filter((item) => item._id === currentUser._id)
     : [];
 
   // Fallback image paths for better error handling
@@ -15,6 +15,12 @@ const ChatBox = ({ chats, currentUser, index, currentChatId }) => {
 
   const lastMessages =
     chats?.message?.length > 0 && chats?.message[chats?.message.length - 1];
+
+  console.log("lastMessages", lastMessages);
+
+  const seen = lastMessages?.seenBy?.find(
+    (member) => member._id !== currentUser._id
+  );
 
   const router = useRouter();
 
@@ -53,9 +59,27 @@ const ChatBox = ({ chats, currentUser, index, currentChatId }) => {
               )}
             </div>
             {!lastMessages && <p>Started a chat</p>}
+            {lastMessages?.photo ? (
+              lastMessages?.sender?._id === currentUser._id ? (
+                <p>You sent a photo</p>
+              ) : (
+                <p className={`${seen ? "text-black" : "text-blue-700"}`}>
+                  {" "}
+                  Received a Photo
+                </p>
+              )
+            ) : (
+              <p className={`${seen ? "text-black" : "text-blue-700"}`}>
+                {lastMessages.text}
+              </p>
+            )}
           </div>
         </div>
-        <div>{!lastMessages && format(new Date(chats?.createdAt), "p")}</div>
+        <div>
+          {!lastMessages
+            ? format(new Date(chats?.createdAt), "p")
+            : format(new Date(chats?.lastMessage), "p")}
+        </div>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import { RiGalleryView } from "react-icons/ri";
 import { LuSendHorizonal } from "react-icons/lu";
 import { CldUploadButton } from "next-cloudinary";
+import MessageBox from "./MessageBox";
 
 const ChatDetails = ({ chatId }) => {
   const [text, sendText] = useState("");
@@ -129,7 +130,11 @@ const ChatDetails = ({ chatId }) => {
             </>
           )}
         </div>
-        <div>Chatbody</div>
+        <div className=" h-[400px] bg-slate-100 overflow-x-auto p-4">
+          {chat?.message?.map((chatMessage) => (
+            <MessageBox chatMessage={chatMessage} currentUser={currentUser} />
+          ))}
+        </div>
 
         <div>
           <div className="relative">

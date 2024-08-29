@@ -33,7 +33,7 @@ export const POST = async (req) => {
         $push: { message: newMessage._id },
       },
       {
-        $set: { lastMessageAt: newMessage.createdAt },
+        $set: { lastMessage: newMessage.createdAt },
       },
       { new: true }
     )

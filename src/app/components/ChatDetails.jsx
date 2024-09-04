@@ -187,7 +187,7 @@ const ChatDetails = ({ chatId }) => {
               placeholder="Write a message"
               value={text}
               onChange={(e) => sendText(e.target.value)}
-              className="p-2 pl-14 outline-none w-full"
+              className="p-2 pl-14 outline-none w-[90%] h-auto overflow-y-auto"
             />
             <span onClick={sendChat}>
               <LuSendHorizonal

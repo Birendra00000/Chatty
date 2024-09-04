@@ -21,7 +21,7 @@ const MessageBox = ({ chatMessage, currentUser }) => {
             </p>
           </div>
           {chatMessage?.text ? (
-            <p className="bg-gray-300 w-fit p-2 text-black rounded-md">
+            <p className="bg-gray-300  p-2 text-black rounded-md max-w-[200px] h-auto break-words">
               {chatMessage?.text}
             </p>
           ) : (
@@ -40,7 +40,7 @@ const MessageBox = ({ chatMessage, currentUser }) => {
               {format(new Date(chatMessage?.createdAt), "p")}
             </p>
             {chatMessage?.text ? (
-              <p className="bg-blue-500 w-fit p-2 text-white rounded-md">
+              <p className="bg-blue-500 max-w-[200px] h-auto break-words p-2 text-white rounded-md ">
                 {chatMessage?.text}
               </p>
             ) : (

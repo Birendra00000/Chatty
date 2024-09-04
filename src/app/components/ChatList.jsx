@@ -71,7 +71,7 @@ const ChatList = ({ currentChatId }) => {
       <input
         type="text"
         placeholder="Search chat ......"
-        className="p-2 w-full rounded-md"
+        className="p-2 w-full rounded-md outline-none"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />

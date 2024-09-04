@@ -87,7 +87,7 @@ const Contact = () => {
         <input
           type="text"
           placeholder="Search contact ......"
-          className="p-2 w-full lg:w-1/2 rounded-md"
+          className="p-2 w-full lg:w-1/2 rounded-md outline-none"
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
@@ -100,7 +100,7 @@ const Contact = () => {
             <span>
               <p className="mb-0 font-semibold">Select or Desclect</p>
             </span>
-            <div className="flex flex-col gap-y-2">
+            <div className="flex flex-col gap-y-2 pb-3">
               {allContacts &&
                 allContacts.map((users) => {
                   return (

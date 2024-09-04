@@ -79,7 +79,7 @@ const Form = ({ type }) => {
               <input
                 type="text"
                 placeholder="Username"
-                className="border rounded-lg p-2 w-[80%] text-[14px] lg:text-[16px] mt-3 "
+                className="border rounded-lg p-2 w-[80%] text-[14px] lg:text-[16px] mt-3 outline-none"
                 name="username"
                 {...register("username", {
                   required: "Username is required",
@@ -100,7 +100,7 @@ const Form = ({ type }) => {
             <input
               type="email"
               placeholder="E-mail"
-              className="border rounded-lg p-2 mt-1 w-[80%] text-[14px] lg:text-[16px]"
+              className="border outline-none rounded-lg p-2 mt-1 w-[80%] text-[14px] lg:text-[16px]"
               name="email"
               {...register("email", {
                 required: "Email is required",
@@ -117,7 +117,7 @@ const Form = ({ type }) => {
             <input
               type="password"
               placeholder="Password"
-              className="border rounded-lg p-2 mt-1 w-[80%] text-[14px] lg:text-[16px]"
+              className="border rounded-lg p-2 mt-1 w-[80%] text-[14px] lg:text-[16px] outline-none"
               name="password"
               {...register("password", {
                 required: "Password is required",

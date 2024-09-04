@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import ChatBox from "./ChatBox";
+import { pusherClient } from "../../../Lib/Pusher";
 
 const ChatList = ({ currentChatId }) => {
   const { data: session } = useSession();
@@ -32,6 +33,39 @@ const ChatList = ({ currentChatId }) => {
     }
   }, [currentUser, search]);
 
+  //For updating any new chat
+
+  useEffect(() => {
+    if (currentUser) {
+      pusherClient.subscribe(currentUser._id);
+
+      const handleChatUpdate = (updatedChat) => {
+        setChats((allChats) =>
+          allChats.map((chat) => {
+            if (chat._id === updatedChat.id) {
+              return { ...chat, message: updatedChat.message };
+            } else {
+              return chat;
+            }
+          })
+        );
+      };
+
+      const handleNewChat = (newChat) => {
+        setChats((allChats) => [...allChats, newChat]);
+      };
+
+      pusherClient.bind("update-chat", handleChatUpdate);
+      pusherClient.bind("new-chat", handleNewChat);
+
+      return () => {
+        pusherClient.unsubscribe(currentUser._id);
+        pusherClient.unbind("update-chat", handleChatUpdate);
+        pusherClient.unbind("new-chat", handleNewChat);
+      };
+    }
+  }, [currentUser]);
+
   return (
     <div>
       <input
@@ -48,6 +82,7 @@ const ChatList = ({ currentChatId }) => {
             chats.map((item, index) => {
               return (
                 <ChatBox
+                  key={item._id}
                   chats={item}
                   index={index}
                   currentUser={currentUser}

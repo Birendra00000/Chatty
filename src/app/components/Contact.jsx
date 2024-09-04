@@ -87,14 +87,14 @@ const Contact = () => {
         <input
           type="text"
           placeholder="Search contact ......"
-          className="p-2 w-1/2 rounded-md"
+          className="p-2 w-full lg:w-1/2 rounded-md"
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
           }}
         />
       </span>
-      <div className="grid  grid-cols-2 gap-x-8">
+      <div className="grid  grid-cols-2 gap-1 lg::gap-x-8">
         <div className="shadow-md bg-white  rounded-md overflow-y-auto w-full flex justify-center ">
           <div className=" w-11/12 mt-3">
             <span>
@@ -146,7 +146,7 @@ const Contact = () => {
                 </div>
               )}
             </div>
-            <div className="flex flex-col gap-2 mb-6">
+            <div className="flex flex-col items-center gap-2 mb-6">
               <span className="mb-0 font-semibold"> Members</span>
               <div className="flex flex-nowrap gap-3">
                 {selectedContacts.map((item) => {
@@ -168,7 +168,8 @@ const Contact = () => {
           </div>
           <span className="flex w-full justify-center">
             <button
-              className="mb-0 font-semibold bg-red-400 w-2/3 p-2 rounded-md shadow-md text-white"
+              className="mb-0 font-semibold bg-red-400 w-full lg:w-2/3 p-2 rounded-md shadow-md
+               text-white"
               onClick={createChat}
             >
               {" "}

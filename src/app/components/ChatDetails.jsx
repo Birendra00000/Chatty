@@ -2,11 +2,12 @@
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { RiGalleryView } from "react-icons/ri";
 import { LuSendHorizonal } from "react-icons/lu";
 import { CldUploadButton } from "next-cloudinary";
 import MessageBox from "./MessageBox";
+import { pusherClient } from "../../../Lib/Pusher";
 
 const ChatDetails = ({ chatId }) => {
   const [text, sendText] = useState("");
@@ -64,7 +65,7 @@ const ChatDetails = ({ chatId }) => {
   //FOR SENDING PHOTO
 
   const sendPhoto = async (result) => {
-    console.log("Upload Result:", result); // Inspect result structure
+    // console.log("Upload Result:", result); // Inspect result structure
     try {
       const response = await axios.post(
         "/api/messages",
@@ -79,7 +80,7 @@ const ChatDetails = ({ chatId }) => {
           },
         }
       );
-      console.log("response", chatId, photo);
+      // console.log("response", chatId, photo);
 
       if (response.status !== 200) {
         console.log("Something went wrong");
@@ -88,6 +89,38 @@ const ChatDetails = ({ chatId }) => {
       console.log(error);
     }
   };
+
+  //For pusher
+
+  useEffect(() => {
+    pusherClient.subscribe(chatId);
+
+    const handleMessage = (newMessage) => {
+      setChat((preChat) => {
+        return {
+          ...preChat,
+          message: [...preChat.message, newMessage],
+        };
+      });
+    };
+
+    pusherClient.bind("new-message", handleMessage);
+
+    return () => {
+      pusherClient.unsubscribe(chatId);
+      pusherClient.unbind("new-message", handleMessage);
+    };
+  }, [chatId]);
+
+  //For scrolling bottom when having new message into message box
+
+  const bottomRef = useRef(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [chat?.message]);
 
   return (
     <div className="w-full flex justify-center">
@@ -102,7 +135,7 @@ const ChatDetails = ({ chatId }) => {
                 <img
                   src={chat.groupPhoto || "/assests/group.jpg"}
                   alt="group"
-                  className="w-[40px] h-[40px] rounded-full"
+                  className="w-[40px] h-[40px] rounded-full mr-1"
                 />
                 <div>
                   <p>
@@ -134,6 +167,7 @@ const ChatDetails = ({ chatId }) => {
           {chat?.message?.map((chatMessage) => (
             <MessageBox chatMessage={chatMessage} currentUser={currentUser} />
           ))}
+          <div ref={bottomRef} />
         </div>
 
         <div>

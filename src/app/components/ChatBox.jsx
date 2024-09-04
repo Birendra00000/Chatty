@@ -19,7 +19,7 @@ const ChatBox = ({ chats, currentUser, index, currentChatId }) => {
   console.log("lastMessages", lastMessages);
 
   const seen = lastMessages?.seenBy?.find(
-    (member) => member._id !== currentUser._id
+    (member) => member._id === currentUser._id
   );
 
   const router = useRouter();

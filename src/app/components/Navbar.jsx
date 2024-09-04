@@ -17,17 +17,17 @@ const Navbar = () => {
   return (
     <>
       <div className="w-full flex justify-center">
-        <div className="w-[85%] flex justify-between items-center">
+        <div className="w-[95%] sm:w-[85%] flex justify-between items-center">
           <div>
             <Link href="/chats">
               <img
                 src="/assests/logo.png"
                 alt="logo"
-                className="w-[120px] h-[80px]"
+                className="w-[90px] h-[60px] sm:w-[120px] sm:h-[80px]"
               />
             </Link>
           </div>
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-3 sm:gap-8">
             <Link
               href="/chats"
               className={`font-semibold ${
@@ -38,7 +38,7 @@ const Navbar = () => {
             </Link>
             <Link
               href="/contacts"
-              className={` font-semibold${
+              className={`font-semibold ${
                 pathname === "/contacts" ? "text-red-500" : ""
               }`}
             >

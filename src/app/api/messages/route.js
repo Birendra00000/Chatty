@@ -1,3 +1,4 @@
+import { pusherServer } from "../../../../Lib/Pusher";
 import Chat from "../../../../modals/Chat";
 import Message from "../../../../modals/Message";
 import User from "../../../../modals/User";
@@ -25,8 +26,6 @@ export const POST = async (req) => {
       seenBy: currentUserId,
     });
 
-    console.log(newMessage);
-
     const updatedChat = await Chat.findByIdAndUpdate(
       chatId,
       {
@@ -48,9 +47,28 @@ export const POST = async (req) => {
       })
       .exec();
 
+    // trigger a Pusher event for a specific chat abpot the new message
+
+    await pusherServer.trigger(chatId, "new-message", newMessage);
+
+    //Triggers a pusher event for each member of the chat update with the latest message
+
+    const lastmessage = updatedChat?.message[updatedChat?.message.length - 1];
+
+    updatedChat.members.forEach(async (member) => {
+      try {
+        await pusherServer.trigger(member._id.toString(), "update-chat", {
+          id: chatId,
+          message: [lastmessage],
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
     return new Response(JSON.stringify(newMessage), { status: 200 });
   } catch (error) {
-    console.log(error);
+    console.log("Failed to trigger update-chat event", error);
     return new Response("Failed to send message", { status: 500 });
   }
 };

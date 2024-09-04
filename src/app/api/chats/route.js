@@ -1,3 +1,5 @@
+import { pusherServer } from "../../../../Lib/Pusher";
+
 const { default: Chat } = require("../../../../modals/Chat");
 const { default: User } = require("../../../../modals/User");
 const { connecttoDB } = require("../../../../mongoose");
@@ -8,7 +10,7 @@ export const POST = async (req) => {
 
     const body = await req.json();
     const { currentUserId, members, isGroup, name, groupPhoto } = body;
-    console.log(body);
+    // console.log(body);
     // Validate members
     if (!Array.isArray(members)) {
       throw new Error("members should be an array");
@@ -37,6 +39,10 @@ export const POST = async (req) => {
           },
           { new: true }
         );
+      });
+      //Triggers a Pusher event for each member to notify a new chat
+      chat?.members?.map((member) => {
+        pusherServer.trigger(member._id.toString(), "new-chat", chat);
       });
       Promise.all(updateAllMembers);
     }

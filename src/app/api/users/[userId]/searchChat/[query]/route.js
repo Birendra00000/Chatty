@@ -7,9 +7,9 @@ export const GET = async (req, { params }) => {
   try {
     await connecttoDB();
     const { userId, query } = params;
-    console.log("Received parameters:", params);
-    console.log("User ID:", params.userId);
-    console.log("Query:", params.query);
+    // console.log("Received parameters:", params);
+    // console.log("User ID:", params.userId);
+    // console.log("Query:", params.query);
 
     const searchChat = await Chat.find({
       members: userId,

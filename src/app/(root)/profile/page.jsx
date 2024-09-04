@@ -2,8 +2,8 @@
 import { useSession } from "next-auth/react";
 import React, { useState, useEffect } from "react";
 import { LuUser2 } from "react-icons/lu";
-import { useForm } from "react-hook-form";
 import { CldUploadButton } from "next-cloudinary";
+import { useForm } from "react-hook-form";
 // import { LuLoader } from "react-icons/lu";
 import Loader from "../../components/Loader";
 import axios from "axios";
@@ -56,8 +56,8 @@ const Profile = () => {
   return loading ? (
     <Loader />
   ) : (
-    <div className="w-full flex justify-center">
-      <div className="w-[30%] flex flex-col gap-[40px] ">
+    <div className="w-full flex justify-center mt-[2%]">
+      <div className="w-[80%] md:w-[60%] lg:w-[30%] flex flex-col gap-[40px] ">
         <span className="flex justify-center">
           <p className="text-xl font-semibold">Edit Your Profile</p>
         </span>

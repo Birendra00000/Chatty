@@ -69,13 +69,15 @@ const ChatBox = ({ chats, currentUser, index, currentChatId }) => {
                 </p>
               )
             ) : (
-              <p
-                className={`text-ellipsis overflow-hidden w-[200px] ${
-                  seen ? "text-black" : "text-blue-700"
-                }`}
-              >
-                {lastMessages.text}
-              </p>
+              <span className=" overflow-hidden w-[110px] sm:w-[170px]  flex h-[20px]">
+                <p
+                  className={`truncate ... ${
+                    seen ? "text-black" : "text-blue-700 "
+                  }`}
+                >
+                  {lastMessages.text}...
+                </p>
+              </span>
             )}
           </div>
         </div>
